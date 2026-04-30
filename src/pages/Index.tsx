@@ -5,6 +5,7 @@ import Fleet from "@/components/Fleet";
 import Reviews from "@/components/Reviews";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import { FloatingActions } from "@/components/FloatingActions";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <Reviews />
       <CTA />
       <Footer />
+      <FloatingActions />
     </main>
   );
 };

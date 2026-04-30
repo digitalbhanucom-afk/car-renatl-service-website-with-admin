@@ -1,6 +1,10 @@
 import { MapPin, Clock, MessageCircle } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteData";
 
 const Footer = () => {
+  const { data } = useSiteSettings();
+  const wa = data?.whatsapp_number ?? "919492456488";
+
   return (
     <footer id="contact" className="border-t border-border/60 pt-20 pb-10">
       <div className="container">
@@ -9,13 +13,11 @@ const Footer = () => {
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">A</div>
               <div>
-                <div className="font-display font-bold">Aim Car Travels</div>
-                <div className="text-[10px] uppercase tracking-widest text-primary">Vijayawada</div>
+                <div className="font-display font-bold">{data?.business_name ?? "Aim Car Travels"}</div>
+                <div className="text-[10px] uppercase tracking-widest text-primary">{data?.tagline}</div>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Vijayawada's trusted self-drive car rental since 2017. Well-maintained vehicles, transparent pricing, and 24/7 availability. Located at Benz Circle.
-            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{data?.about_text}</p>
           </div>
 
           <div className="lg:col-span-2">
@@ -42,18 +44,18 @@ const Footer = () => {
             <div className="card-elevated rounded-2xl p-4 border border-border/60 flex items-start gap-3">
               <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
-                <div className="font-semibold text-sm">Benz Circle, Vijayawada</div>
-                <div className="text-xs text-muted-foreground">Andhra Pradesh, India</div>
+                <div className="font-semibold text-sm">{data?.address}</div>
+                <div className="text-xs text-muted-foreground">India</div>
               </div>
             </div>
             <div className="card-elevated rounded-2xl p-4 border border-border/60 flex items-start gap-3">
               <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
-                <div className="font-semibold text-sm">Open 24 hours — 7 days a week</div>
+                <div className="font-semibold text-sm">{data?.hours}</div>
                 <div className="text-xs text-muted-foreground">Book anytime, pick up anytime</div>
               </div>
             </div>
-            <a href="https://wa.me/919999999999" className="card-elevated rounded-2xl p-4 border border-border/60 flex items-start gap-3 hover:border-primary/40 transition-colors">
+            <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="card-elevated rounded-2xl p-4 border border-border/60 flex items-start gap-3 hover:border-primary/40 transition-colors">
               <MessageCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <div className="font-semibold text-sm">WhatsApp</div>
@@ -64,7 +66,7 @@ const Footer = () => {
         </div>
 
         <div className="pt-6 border-t border-border/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <div>© 2026 Aim Car Travels. All rights reserved.</div>
+          <div>© 2026 {data?.business_name ?? "Aim Car Travels"}. All rights reserved.</div>
           <div>Crafted with care in Vijayawada 🇮🇳</div>
         </div>
       </div>
