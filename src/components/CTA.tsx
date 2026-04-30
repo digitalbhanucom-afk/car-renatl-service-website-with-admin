@@ -1,6 +1,12 @@
 import { Phone, MessageCircle } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSiteData";
 
 const CTA = () => {
+  const { data } = useSiteSettings();
+  const phone = data?.phone_number ?? "+919492456488";
+  const wa = data?.whatsapp_number ?? "919492456488";
+  const waMsg = encodeURIComponent("Hi! I'd like to book a self-drive car.");
+
   return (
     <section className="py-24 sm:py-32">
       <div className="container">
@@ -16,10 +22,10 @@ const CTA = () => {
               Book your self-drive car in under 2 minutes. Call us or send a WhatsApp message — we respond instantly.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <a href="tel:+919999999999" className="inline-flex items-center gap-2 px-7 h-14 rounded-full bg-gradient-primary text-primary-foreground font-semibold btn-glow hover:scale-105 transition-transform">
+              <a href={`tel:${phone}`} className="inline-flex items-center gap-2 px-7 h-14 rounded-full bg-gradient-primary text-primary-foreground font-semibold btn-glow hover:scale-105 transition-transform">
                 <Phone className="w-5 h-5" /> Call Now to Book
               </a>
-              <a href="https://wa.me/919999999999" className="inline-flex items-center gap-2 px-7 h-14 rounded-full bg-secondary border border-border font-semibold hover:bg-secondary/70 transition-colors">
+              <a href={`https://wa.me/${wa}?text=${waMsg}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-7 h-14 rounded-full bg-[#25D366] text-white font-semibold hover:brightness-110 transition-all">
                 <MessageCircle className="w-5 h-5" /> WhatsApp Us
               </a>
             </div>
