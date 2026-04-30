@@ -4,7 +4,51 @@
 
 @layer base {
   :root {
-    /* Brand: Aim Car Travels — deep navy + vivid orange */
+    /* LIGHT — clean, soft surfaces with the same vivid orange accent */
+    --background: 36 33% 97%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 22 95% 52%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 32 100% 60%;
+
+    --secondary: 220 20% 95%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 10% 42%;
+
+    --accent: 142 71% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 18% 88%;
+    --input: 220 18% 88%;
+    --ring: 22 95% 52%;
+
+    --radius: 1rem;
+
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100% / 0.7) 0%, hsl(36 30% 96% / 0.5) 60%, hsl(22 95% 52% / 0.12) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(22 95% 52%) 0%, hsl(32 100% 60%) 100%);
+    --gradient-card: linear-gradient(160deg, hsl(0 0% 100%) 0%, hsl(36 33% 98%) 100%);
+    --gradient-radial: radial-gradient(circle at 30% 20%, hsl(22 95% 52% / 0.08), transparent 60%);
+
+    --shadow-glow: 0 20px 50px -20px hsl(22 95% 52% / 0.45);
+    --shadow-card: 0 10px 30px -10px hsl(220 30% 50% / 0.18);
+    --shadow-elegant: 0 30px 80px -30px hsl(220 50% 30% / 0.25);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dark {
     --background: 222 47% 9%;
     --foreground: 40 30% 96%;
 
@@ -34,8 +78,6 @@
     --input: 222 30% 20%;
     --ring: 28 96% 54%;
 
-    --radius: 1rem;
-
     --gradient-hero: linear-gradient(135deg, hsl(222 47% 9% / 0.95) 0%, hsl(222 60% 6% / 0.85) 60%, hsl(28 96% 54% / 0.15) 100%);
     --gradient-primary: linear-gradient(135deg, hsl(28 96% 54%) 0%, hsl(36 100% 62%) 100%);
     --gradient-card: linear-gradient(160deg, hsl(222 40% 14%) 0%, hsl(222 47% 11%) 100%);
@@ -44,8 +86,6 @@
     --shadow-glow: 0 20px 60px -20px hsl(28 96% 54% / 0.45);
     --shadow-card: 0 10px 30px -10px hsl(222 60% 4% / 0.6);
     --shadow-elegant: 0 30px 80px -30px hsl(0 0% 0% / 0.6);
-
-    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
@@ -57,6 +97,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     background-image: var(--gradient-radial);
     background-attachment: fixed;
+    transition: background-color 0.4s var(--transition-smooth), color 0.4s var(--transition-smooth);
   }
   h1, h2, h3, h4 { font-family: 'Sora', 'Inter', sans-serif; letter-spacing: -0.02em; }
 }
@@ -70,7 +111,7 @@
   }
   .card-elevated:hover {
     transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 30px 60px -20px hsl(28 96% 54% / 0.35);
+    box-shadow: 0 30px 60px -20px hsl(var(--primary) / 0.35);
   }
   .text-gradient {
     background: var(--gradient-primary);
