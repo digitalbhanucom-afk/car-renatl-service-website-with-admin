@@ -3,15 +3,17 @@ import { Navigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSiteSettings, useCars, useReviews, type Car, type Review, type SiteSettings } from "@/hooks/useSiteData";
+import { useSiteSettings, useCars, useReviewsAll, type Car, type Review, type SiteSettings } from "@/hooks/useSiteData";
 import { toast } from "sonner";
-import { LogOut, Plus, Trash2, Save, Home, Car as CarIcon, MessageSquare, Settings as SettingsIcon, Loader2, ArrowUp, ArrowDown } from "lucide-react";
+import { LogOut, Plus, Trash2, Save, Home, Car as CarIcon, MessageSquare, Settings as SettingsIcon, Loader2, ArrowLeft, Eye, EyeOff, BarChart3 } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
-type Tab = "content" | "cars" | "reviews";
+type Tab = "overview" | "content" | "cars" | "reviews";
 
 const Admin = () => {
   const { session, isAdmin, loading } = useAuth();
-  const [tab, setTab] = useState<Tab>("content");
+  const [tab, setTab] = useState<Tab>("overview");
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>;
   if (!session) return <Navigate to="/auth" replace />;
@@ -22,7 +24,7 @@ const Admin = () => {
         <p className="text-muted-foreground text-sm mb-4">Your account doesn't have admin access. Ask an existing admin to grant it.</p>
         <p className="text-xs text-muted-foreground mb-6">Your user id: <code className="text-primary break-all">{session.user.id}</code></p>
         <div className="flex gap-2 justify-center">
-          <Link to="/" className="px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold inline-flex items-center">Home</Link>
+          <Link to="/" className="px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold inline-flex items-center gap-2"><ArrowLeft className="w-4 h-4" /> Back to site</Link>
           <button onClick={() => supabase.auth.signOut()} className="px-4 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold inline-flex items-center gap-2"><LogOut className="w-4 h-4" /> Sign out</button>
         </div>
       </div>
@@ -30,27 +32,36 @@ const Admin = () => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 bg-background/85 backdrop-blur-xl border-b border-border">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">A</div>
-            <div>
-              <div className="font-display font-bold text-sm">Admin Dashboard</div>
-              <div className="text-[10px] uppercase tracking-widest text-primary">Aim Car Travels</div>
+        <div className="container flex items-center justify-between h-16 gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <Link to="/" className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-secondary border border-border hover:bg-secondary/70 shrink-0" aria-label="Back to landing page">
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground shrink-0">A</div>
+            <div className="min-w-0">
+              <div className="font-display font-bold text-sm truncate">Admin Dashboard</div>
+              <div className="text-[10px] uppercase tracking-widest text-primary truncate">Aim Car Travels</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/" className="hidden sm:inline-flex items-center gap-2 px-4 h-9 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70"><Home className="w-4 h-4" /> View site</Link>
-            <button onClick={() => supabase.auth.signOut()} className="inline-flex items-center gap-2 px-4 h-9 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70"><LogOut className="w-4 h-4" /> Sign out</button>
+            <ThemeToggle />
+            <Link to="/" className="hidden sm:inline-flex items-center gap-2 px-4 h-9 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow hover:scale-[1.03] transition-transform">
+              <Home className="w-4 h-4" /> View site
+            </Link>
+            <button onClick={() => supabase.auth.signOut()} className="inline-flex items-center gap-2 px-3 sm:px-4 h-9 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70">
+              <LogOut className="w-4 h-4" /> <span className="hidden sm:inline">Sign out</span>
+            </button>
           </div>
         </div>
       </header>
 
-      <div className="container py-8 grid lg:grid-cols-12 gap-6">
+      <div className="container py-6 lg:py-8 grid lg:grid-cols-12 gap-6">
         <aside className="lg:col-span-3">
-          <div className="card-elevated rounded-2xl p-3 border border-border/60 lg:sticky lg:top-24 flex lg:flex-col gap-1">
+          <div className="card-elevated rounded-2xl p-3 border border-border/60 lg:sticky lg:top-24 grid grid-cols-2 lg:flex lg:flex-col gap-1">
             {[
+              { id: "overview" as Tab, label: "Overview", icon: BarChart3 },
               { id: "content" as Tab, label: "Site Content", icon: SettingsIcon },
               { id: "cars" as Tab, label: "Fleet / Cars", icon: CarIcon },
               { id: "reviews" as Tab, label: "Reviews", icon: MessageSquare },
@@ -58,22 +69,65 @@ const Admin = () => {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex-1 lg:flex-none inline-flex items-center gap-3 px-4 h-11 rounded-xl text-sm font-semibold transition-all ${
+                className={`inline-flex items-center gap-3 px-4 h-11 rounded-xl text-sm font-semibold transition-all ${
                   tab === t.id ? "bg-gradient-primary text-primary-foreground btn-glow" : "hover:bg-secondary text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <t.icon className="w-4 h-4" /> <span className="hidden sm:inline">{t.label}</span>
+                <t.icon className="w-4 h-4 shrink-0" /> <span>{t.label}</span>
               </button>
             ))}
           </div>
         </aside>
 
         <main className="lg:col-span-9 space-y-6">
+          {tab === "overview" && <Overview onJump={setTab} />}
           {tab === "content" && <ContentEditor />}
           {tab === "cars" && <CarsEditor />}
           {tab === "reviews" && <ReviewsEditor />}
         </main>
       </div>
+    </div>
+  );
+};
+
+/* ---------- Overview ---------- */
+const Overview = ({ onJump }: { onJump: (t: Tab) => void }) => {
+  const { data: cars = [] } = useCars({ includeInactive: true });
+  const { data: reviews = [] } = useReviewsAll();
+  const { data: settings } = useSiteSettings();
+
+  const stats = [
+    { label: "Total cars", value: cars.length, sub: `${cars.filter((c) => c.active).length} active`, icon: CarIcon, jump: "cars" as Tab },
+    { label: "Reviews", value: reviews.length, sub: `${reviews.filter((r) => r.active).length} live`, icon: MessageSquare, jump: "reviews" as Tab },
+    { label: "WhatsApp", value: settings?.whatsapp_number ?? "—", sub: "Booking number", icon: SettingsIcon, jump: "content" as Tab },
+    { label: "Phone", value: settings?.phone_number ?? "—", sub: "Call number", icon: SettingsIcon, jump: "content" as Tab },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Section title="Welcome back" description="Manage every part of the landing page from here.">
+        <div className="grid sm:grid-cols-2 gap-3">
+          {stats.map((s, i) => (
+            <button key={i} onClick={() => onJump(s.jump)} className="text-left rounded-2xl border border-border bg-card p-4 hover:border-primary/50 transition-colors group">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-9 h-9 rounded-xl bg-primary/15 text-primary flex items-center justify-center"><s.icon className="w-4 h-4" /></div>
+                <div className="text-xs text-muted-foreground group-hover:text-primary transition-colors">Edit →</div>
+              </div>
+              <div className="font-display font-bold text-2xl truncate">{s.value}</div>
+              <div className="text-xs text-muted-foreground mt-1">{s.label} · {s.sub}</div>
+            </button>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Quick actions">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => onJump("cars")} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow"><Plus className="w-4 h-4" /> Add a car</button>
+          <button onClick={() => onJump("reviews")} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70"><Plus className="w-4 h-4" /> Add a review</button>
+          <button onClick={() => onJump("content")} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70"><SettingsIcon className="w-4 h-4" /> Edit hero text</button>
+          <Link to="/" className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70"><Home className="w-4 h-4" /> Open landing page</Link>
+        </div>
+      </Section>
     </div>
   );
 };
@@ -126,22 +180,22 @@ const ContentEditor = () => {
 };
 
 /* ---------- Cars editor ---------- */
-const emptyCar = { name: "", image_url: "/cars/car-seltos.jpg", category: "suv", type_label: "", use_label: "", seats: "5 Seater", fuel: "Petrol", transmission: "Manual", price_per_day: 2000, badge: null as string | null, sort_order: 99, active: true };
+const emptyCar = { name: "New Car", image_url: "", category: "suv", type_label: "Type", use_label: "Use case", seats: "5 Seater", fuel: "Petrol", transmission: "Manual", price_per_day: 2000, badge: null as string | null, sort_order: 99, active: true };
 
 const CarsEditor = () => {
-  const { data: cars = [] } = useCars();
+  const { data: cars = [] } = useCars({ includeInactive: true });
   const qc = useQueryClient();
   const refresh = () => qc.invalidateQueries({ queryKey: ["cars"] });
 
   const addCar = async () => {
-    const { error } = await supabase.from("cars").insert({ ...emptyCar, name: "New Car", type_label: "Type", use_label: "Use case" });
+    const { error } = await supabase.from("cars").insert(emptyCar);
     if (error) return toast.error(error.message);
     toast.success("Car added");
     refresh();
   };
 
   return (
-    <Section title="Fleet" description="Add, edit, reorder, or remove cars shown on the landing page." action={<button onClick={addCar} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow"><Plus className="w-4 h-4" /> Add car</button>}>
+    <Section title="Fleet" description="Add, edit, reorder, or remove cars shown on the landing page. Inactive cars are hidden from visitors." action={<button onClick={addCar} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow"><Plus className="w-4 h-4" /> Add car</button>}>
       <div className="space-y-3">
         {cars.map((c) => <CarRow key={c.id} car={c} onChange={refresh} />)}
         {cars.length === 0 && <div className="text-sm text-muted-foreground text-center py-8">No cars yet — click "Add car"</div>}
@@ -177,27 +231,35 @@ const CarRow = ({ car, onChange }: { car: Car; onChange: () => void }) => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
-      <div className="flex gap-4">
-        <img src={c.image_url} alt={c.name} className="w-24 h-24 rounded-xl object-cover bg-secondary shrink-0" />
-        <div className="grid sm:grid-cols-2 gap-2 flex-1">
+    <div className={`rounded-2xl border bg-card p-4 transition-colors ${c.active ? "border-border" : "border-dashed border-muted-foreground/30 opacity-75"}`}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="font-display font-bold text-lg">{c.name || "Untitled"}</div>
+        <span className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded-full ${c.active ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}>
+          {c.active ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />} {c.active ? "Live" : "Hidden"}
+        </span>
+      </div>
+
+      <div className="space-y-3">
+        <ImageUpload label="Car image" value={c.image_url} onChange={(url) => setC({ ...c, image_url: url })} compact />
+
+        <div className="grid sm:grid-cols-2 gap-2">
           <Field compact label="Name" value={c.name} onChange={(v) => setC({ ...c, name: v })} />
-          <Field compact label="Image URL" value={c.image_url} onChange={(v) => setC({ ...c, image_url: v })} />
+          <SelectField compact label="Category" value={c.category} onChange={(v) => setC({ ...c, category: v })} options={[["suv", "SUV"], ["sedan", "Sedan"], ["mpv", "MPV"]]} />
           <Field compact label="Type label" value={c.type_label} onChange={(v) => setC({ ...c, type_label: v })} />
           <Field compact label="Use label" value={c.use_label} onChange={(v) => setC({ ...c, use_label: v })} />
-          <SelectField compact label="Category" value={c.category} onChange={(v) => setC({ ...c, category: v })} options={[["suv", "SUV"], ["sedan", "Sedan"], ["mpv", "MPV"]]} />
           <Field compact label="Seats" value={c.seats} onChange={(v) => setC({ ...c, seats: v })} />
           <Field compact label="Fuel" value={c.fuel} onChange={(v) => setC({ ...c, fuel: v })} />
           <Field compact label="Transmission" value={c.transmission} onChange={(v) => setC({ ...c, transmission: v })} />
           <Field compact label="Price / day (₹)" type="number" value={String(c.price_per_day)} onChange={(v) => setC({ ...c, price_per_day: Number(v) || 0 })} />
           <Field compact label="Badge (optional)" value={c.badge ?? ""} onChange={(v) => setC({ ...c, badge: v || null })} />
           <Field compact label="Sort order" type="number" value={String(c.sort_order)} onChange={(v) => setC({ ...c, sort_order: Number(v) || 0 })} />
-          <label className="inline-flex items-center gap-2 text-sm self-end h-9">
+          <label className="inline-flex items-center gap-2 text-sm self-end h-9 sm:col-span-2">
             <input type="checkbox" checked={c.active} onChange={(e) => setC({ ...c, active: e.target.checked })} className="w-4 h-4 accent-primary" /> Active (visible on site)
           </label>
         </div>
       </div>
-      <div className="flex justify-end gap-2 mt-3">
+
+      <div className="flex justify-end gap-2 mt-4 pt-3 border-t border-border">
         <button onClick={del} className="inline-flex items-center gap-1.5 px-3 h-9 rounded-lg bg-destructive/10 text-destructive border border-destructive/30 text-sm font-semibold hover:bg-destructive/20"><Trash2 className="w-4 h-4" /> Delete</button>
         <button onClick={save} disabled={saving} className="inline-flex items-center gap-1.5 px-4 h-9 rounded-lg bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow disabled:opacity-60">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save
@@ -209,7 +271,7 @@ const CarRow = ({ car, onChange }: { car: Car; onChange: () => void }) => {
 
 /* ---------- Reviews editor ---------- */
 const ReviewsEditor = () => {
-  const { data: reviews = [] } = useReviews();
+  const { data: reviews = [] } = useReviewsAll();
   const qc = useQueryClient();
   const refresh = () => qc.invalidateQueries({ queryKey: ["reviews"] });
 
@@ -224,6 +286,7 @@ const ReviewsEditor = () => {
     <Section title="Customer Reviews" description="Manage testimonials displayed on the landing page." action={<button onClick={add} className="inline-flex items-center gap-2 px-4 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow"><Plus className="w-4 h-4" /> Add review</button>}>
       <div className="space-y-3">
         {reviews.map((r) => <ReviewRow key={r.id} review={r} onChange={refresh} />)}
+        {reviews.length === 0 && <div className="text-sm text-muted-foreground text-center py-8">No reviews yet</div>}
       </div>
     </Section>
   );
@@ -252,7 +315,7 @@ const ReviewRow = ({ review, onChange }: { review: Review; onChange: () => void 
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 grid sm:grid-cols-2 gap-2">
+    <div className={`rounded-2xl border bg-card p-4 grid sm:grid-cols-2 gap-2 ${r.active ? "border-border" : "border-dashed border-muted-foreground/30 opacity-75"}`}>
       <Field compact label="Name" value={r.name} onChange={(v) => setR({ ...r, name: v })} />
       <Field compact label="Initials" value={r.initials} onChange={(v) => setR({ ...r, initials: v })} />
       <Field compact label="Tag" value={r.tag} onChange={(v) => setR({ ...r, tag: v })} />
@@ -264,7 +327,7 @@ const ReviewRow = ({ review, onChange }: { review: Review; onChange: () => void 
       <label className="inline-flex items-center gap-2 text-sm self-end h-9">
         <input type="checkbox" checked={r.active} onChange={(e) => setR({ ...r, active: e.target.checked })} className="w-4 h-4 accent-primary" /> Active
       </label>
-      <div className="sm:col-span-2 flex justify-end gap-2">
+      <div className="sm:col-span-2 flex justify-end gap-2 pt-2 border-t border-border">
         <button onClick={del} className="inline-flex items-center gap-1.5 px-3 h-9 rounded-lg bg-destructive/10 text-destructive border border-destructive/30 text-sm font-semibold hover:bg-destructive/20"><Trash2 className="w-4 h-4" /> Delete</button>
         <button onClick={save} disabled={saving} className="inline-flex items-center gap-1.5 px-4 h-9 rounded-lg bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow disabled:opacity-60">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save
@@ -276,10 +339,10 @@ const ReviewRow = ({ review, onChange }: { review: Review; onChange: () => void 
 
 /* ---------- Shared UI ---------- */
 const Section = ({ title, description, action, children }: { title: string; description?: string; action?: React.ReactNode; children: React.ReactNode }) => (
-  <div className="card-elevated rounded-3xl border border-border/60 p-6 sm:p-8 space-y-6">
+  <div className="card-elevated rounded-3xl border border-border/60 p-5 sm:p-8 space-y-6">
     <div className="flex items-start justify-between gap-4 flex-wrap">
       <div>
-        <h2 className="font-display font-bold text-2xl">{title}</h2>
+        <h2 className="font-display font-bold text-xl sm:text-2xl">{title}</h2>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
       </div>
       {action}
