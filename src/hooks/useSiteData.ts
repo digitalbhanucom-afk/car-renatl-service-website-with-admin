@@ -45,13 +45,25 @@ export type Car = {
   active: boolean;
 };
 
-export const useCars = () =>
+export const useCars = (opts: { includeInactive?: boolean } = {}) =>
   useQuery({
-    queryKey: ["cars"],
+    queryKey: ["cars", opts.includeInactive ? "all" : "active"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("cars").select("*").eq("active", true).order("sort_order");
+      let q = supabase.from("cars").select("*").order("sort_order");
+      if (!opts.includeInactive) q = q.eq("active", true);
+      const { data, error } = await q;
       if (error) throw error;
       return (data ?? []) as Car[];
+    },
+  });
+
+export const useReviewsAll = () =>
+  useQuery({
+    queryKey: ["reviews", "all"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("reviews").select("*").order("sort_order");
+      if (error) throw error;
+      return (data ?? []) as Review[];
     },
   });
 
