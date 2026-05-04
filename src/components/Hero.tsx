@@ -1,4 +1,4 @@
-import heroCar from "@/assets/hero-car.jpg";
+import defaultHero from "@/assets/hero-car.jpg";
 import { Phone, MessageCircle, Star, ShieldCheck, Clock } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteData";
 
@@ -11,11 +11,12 @@ const Hero = () => {
   const title = data?.hero_title ?? "Self-Drive Cars in Vijayawada";
   const highlight = data?.hero_highlight ?? "Vijayawada";
   const titleParts = highlight && title.includes(highlight) ? title.split(highlight) : [title, ""];
+  const heroImg = data?.hero_image_url || defaultHero;
 
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-24">
       <div className="absolute inset-0">
-        <img src={heroCar} alt="Premium SUV on coastal highway" className="w-full h-full object-cover dark:opacity-100 opacity-30" width={1920} height={1280} />
+        <img src={heroImg} alt="Hero background" className="w-full h-full object-cover dark:opacity-100 opacity-30" width={1920} height={1280} />
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="absolute inset-0 bg-background/40 dark:bg-background/40" />
       </div>

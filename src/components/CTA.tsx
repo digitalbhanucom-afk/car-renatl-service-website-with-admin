@@ -7,6 +7,12 @@ const CTA = () => {
   const wa = data?.whatsapp_number ?? "919492456488";
   const waMsg = encodeURIComponent("Hi! I'd like to book a self-drive car.");
 
+  const title = data?.cta_title ?? "Ready to Hit the Road?";
+  // Render last word in gradient
+  const words = title.split(" ");
+  const last = words.pop() ?? "";
+  const lead = words.join(" ");
+
   return (
     <section className="py-24 sm:py-32">
       <div className="container">
@@ -16,11 +22,9 @@ const CTA = () => {
           <div className="relative z-10">
             <span className="accent-rule">Get In Touch</span>
             <h2 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl mt-4 mb-4">
-              Ready to Hit the <span className="text-gradient">Road?</span>
+              {lead} <span className="text-gradient">{last}</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
-              Book your self-drive car in under 2 minutes. Call us or send a WhatsApp message — we respond instantly.
-            </p>
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">{data?.cta_subtitle}</p>
             <div className="flex flex-wrap justify-center gap-3">
               <a href={`tel:${phone}`} className="inline-flex items-center gap-2 px-7 h-14 rounded-full bg-gradient-primary text-primary-foreground font-semibold btn-glow hover:scale-105 transition-transform">
                 <Phone className="w-5 h-5" /> Call Now to Book

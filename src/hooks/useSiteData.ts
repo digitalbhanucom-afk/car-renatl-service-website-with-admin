@@ -17,6 +17,18 @@ export type SiteSettings = {
   reviews_count: string;
   years_in_business: string;
   about_text: string;
+  logo_url: string;
+  hero_image_url: string;
+  map_embed_url: string;
+  services_title: string;
+  services_subtitle: string;
+  cta_title: string;
+  cta_subtitle: string;
+  footer_note: string;
+  payment_enabled: boolean;
+  payment_qr_url: string;
+  upi_id: string;
+  payment_note: string;
 };
 
 export const useSiteSettings = () =>
@@ -57,16 +69,6 @@ export const useCars = (opts: { includeInactive?: boolean } = {}) =>
     },
   });
 
-export const useReviewsAll = () =>
-  useQuery({
-    queryKey: ["reviews", "all"],
-    queryFn: async () => {
-      const { data, error } = await supabase.from("reviews").select("*").order("sort_order");
-      if (error) throw error;
-      return (data ?? []) as Review[];
-    },
-  });
-
 export type Review = {
   id: string;
   name: string;
@@ -78,6 +80,16 @@ export type Review = {
   active: boolean;
 };
 
+export const useReviewsAll = () =>
+  useQuery({
+    queryKey: ["reviews", "all"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("reviews").select("*").order("sort_order");
+      if (error) throw error;
+      return (data ?? []) as Review[];
+    },
+  });
+
 export const useReviews = () =>
   useQuery({
     queryKey: ["reviews"],
@@ -85,5 +97,27 @@ export const useReviews = () =>
       const { data, error } = await supabase.from("reviews").select("*").eq("active", true).order("sort_order");
       if (error) throw error;
       return (data ?? []) as Review[];
+    },
+  });
+
+export type Service = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  tags: string[];
+  sort_order: number;
+  active: boolean;
+};
+
+export const useServices = (opts: { includeInactive?: boolean } = {}) =>
+  useQuery({
+    queryKey: ["services", opts.includeInactive ? "all" : "active"],
+    queryFn: async () => {
+      let q = supabase.from("services").select("*").order("sort_order");
+      if (!opts.includeInactive) q = q.eq("active", true);
+      const { data, error } = await q;
+      if (error) throw error;
+      return (data ?? []) as Service[];
     },
   });

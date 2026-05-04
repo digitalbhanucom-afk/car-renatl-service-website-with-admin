@@ -44,9 +44,13 @@ const Navbar = () => {
       >
         <div className="container flex items-center justify-between gap-4">
           <a href="#home" className="flex items-center gap-2.5 group shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground btn-glow group-hover:scale-110 transition-transform">
-              A
-            </div>
+            {data?.logo_url ? (
+              <img src={data.logo_url} alt={data.business_name} className="w-10 h-10 rounded-xl object-cover btn-glow group-hover:scale-110 transition-transform" />
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground btn-glow group-hover:scale-110 transition-transform">
+                A
+              </div>
+            )}
             <div className="leading-tight hidden sm:block">
               <div className="font-display font-bold text-base">{data?.business_name ?? "Aim Car Travels"}</div>
               <div className="text-[10px] uppercase tracking-widest text-primary">{data?.tagline ?? "Vijayawada"}</div>

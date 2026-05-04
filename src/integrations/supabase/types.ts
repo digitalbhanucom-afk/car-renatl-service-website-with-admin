@@ -107,22 +107,70 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          sort_order: number
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description: string
+          icon?: string
+          id?: string
+          sort_order?: number
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          sort_order?: number
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           about_text: string
           address: string
           business_name: string
+          cta_subtitle: string
+          cta_title: string
+          footer_note: string
           hero_eyebrow: string
           hero_highlight: string
+          hero_image_url: string
           hero_subtitle: string
           hero_title: string
           hours: string
           id: string
+          logo_url: string
+          map_embed_url: string
+          payment_enabled: boolean
+          payment_note: string
+          payment_qr_url: string
           phone_number: string
           rating: string
           reviews_count: string
+          services_subtitle: string
+          services_title: string
           tagline: string
           updated_at: string
+          upi_id: string
           whatsapp_number: string
           years_in_business: string
         }
@@ -130,17 +178,29 @@ export type Database = {
           about_text?: string
           address?: string
           business_name?: string
+          cta_subtitle?: string
+          cta_title?: string
+          footer_note?: string
           hero_eyebrow?: string
           hero_highlight?: string
+          hero_image_url?: string
           hero_subtitle?: string
           hero_title?: string
           hours?: string
           id?: string
+          logo_url?: string
+          map_embed_url?: string
+          payment_enabled?: boolean
+          payment_note?: string
+          payment_qr_url?: string
           phone_number?: string
           rating?: string
           reviews_count?: string
+          services_subtitle?: string
+          services_title?: string
           tagline?: string
           updated_at?: string
+          upi_id?: string
           whatsapp_number?: string
           years_in_business?: string
         }
@@ -148,17 +208,29 @@ export type Database = {
           about_text?: string
           address?: string
           business_name?: string
+          cta_subtitle?: string
+          cta_title?: string
+          footer_note?: string
           hero_eyebrow?: string
           hero_highlight?: string
+          hero_image_url?: string
           hero_subtitle?: string
           hero_title?: string
           hours?: string
           id?: string
+          logo_url?: string
+          map_embed_url?: string
+          payment_enabled?: boolean
+          payment_note?: string
+          payment_qr_url?: string
           phone_number?: string
           rating?: string
           reviews_count?: string
+          services_subtitle?: string
+          services_title?: string
           tagline?: string
           updated_at?: string
+          upi_id?: string
           whatsapp_number?: string
           years_in_business?: string
         }
