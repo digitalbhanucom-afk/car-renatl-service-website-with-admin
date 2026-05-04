@@ -11,13 +11,22 @@ const Footer = () => {
         <div className="grid lg:grid-cols-12 gap-10 mb-14">
           <div className="lg:col-span-4">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">A</div>
+              {data?.logo_url ? (
+                <img src={data.logo_url} alt={data.business_name} className="w-10 h-10 rounded-xl object-cover" />
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">A</div>
+              )}
               <div>
                 <div className="font-display font-bold">{data?.business_name ?? "Aim Car Travels"}</div>
                 <div className="text-[10px] uppercase tracking-widest text-primary">{data?.tagline}</div>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">{data?.about_text}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">{data?.about_text}</p>
+            {data?.map_embed_url && (
+              <div className="rounded-2xl overflow-hidden border border-border/60 aspect-video">
+                <iframe src={data.map_embed_url} title="Location map" className="w-full h-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-2">
