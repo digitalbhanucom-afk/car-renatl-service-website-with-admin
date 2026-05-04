@@ -75,8 +75,8 @@ const Footer = () => {
         </div>
 
         <div className="pt-6 border-t border-border/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <div>© 2026 {data?.business_name ?? "Aim Car Travels"}. All rights reserved.</div>
-          <div>Crafted with care in Vijayawada 🇮🇳</div>
+          <div>© {new Date().getFullYear()} {data?.business_name ?? "Aim Car Travels"}. All rights reserved.</div>
+          <div>{data?.footer_note ?? "Crafted with care in Vijayawada 🇮🇳"}</div>
         </div>
       </div>
     </footer>
