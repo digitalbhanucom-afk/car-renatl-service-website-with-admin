@@ -90,7 +90,7 @@ const Navbar = () => {
               </Link>
             )}
 
-            <a href={`https://wa.me/${wa}`} className="hidden md:inline-flex items-center gap-2 px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70 transition-colors">
+            <a href={`https://wa.me/${wa}?text=${waMsg}`} className="hidden md:inline-flex items-center gap-2 px-4 h-10 rounded-full bg-secondary border border-border text-sm font-semibold hover:bg-secondary/70 transition-colors">
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
             <a href={`tel:${phone}`} className="hidden sm:inline-flex items-center gap-2 px-5 h-10 rounded-full bg-gradient-primary text-primary-foreground text-sm font-semibold btn-glow hover:scale-105 transition-transform">
@@ -147,7 +147,7 @@ const Navbar = () => {
               <a href={`tel:${phone}`} className="flex items-center justify-center gap-2 h-11 rounded-2xl bg-gradient-primary text-primary-foreground font-semibold btn-glow">
                 <Phone className="w-4 h-4" /> Call
               </a>
-              <a href={`https://wa.me/${wa}`} className="flex items-center justify-center gap-2 h-11 rounded-2xl bg-secondary border border-border font-semibold">
+              <a href={`https://wa.me/${wa}?text=${waMsg}`} className="flex items-center justify-center gap-2 h-11 rounded-2xl bg-secondary border border-border font-semibold">
                 <MessageCircle className="w-4 h-4" /> WhatsApp
               </a>
             </div>
