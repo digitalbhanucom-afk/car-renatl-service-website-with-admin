@@ -12,7 +12,7 @@ import {
 import ImageUpload from "@/components/admin/ImageUpload";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-type Tab = "overview" | "branding" | "content" | "services" | "cars" | "reviews" | "payment" | "contact";
+type Tab = "overview" | "branding" | "content" | "services" | "cars" | "reviews" | "payment" | "whatsapp" | "contact";
 
 const TABS: { id: Tab; label: string; icon: typeof BarChart3 }[] = [
   { id: "overview", label: "Overview", icon: BarChart3 },
@@ -22,6 +22,7 @@ const TABS: { id: Tab; label: string; icon: typeof BarChart3 }[] = [
   { id: "cars", label: "Fleet / Cars", icon: CarIcon },
   { id: "reviews", label: "Reviews", icon: MessageSquare },
   { id: "payment", label: "Payment / UPI", icon: CreditCard },
+  { id: "whatsapp", label: "WhatsApp", icon: MessageCircle },
   { id: "contact", label: "Contact & Map", icon: MapPin },
 ];
 
