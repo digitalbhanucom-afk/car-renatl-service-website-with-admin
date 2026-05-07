@@ -97,6 +97,7 @@ const Admin = () => {
           {tab === "cars" && <CarsEditor />}
           {tab === "reviews" && <ReviewsEditor />}
           {tab === "payment" && <PaymentEditor />}
+          {tab === "whatsapp" && <WhatsAppEditor />}
           {tab === "contact" && <ContactEditor />}
         </main>
       </div>
