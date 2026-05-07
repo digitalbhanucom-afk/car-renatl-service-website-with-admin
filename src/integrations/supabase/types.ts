@@ -171,7 +171,10 @@ export type Database = {
           tagline: string
           updated_at: string
           upi_id: string
+          whatsapp_booking_template: string
+          whatsapp_default_message: string
           whatsapp_number: string
+          whatsapp_payment_message: string
           years_in_business: string
         }
         Insert: {
@@ -201,7 +204,10 @@ export type Database = {
           tagline?: string
           updated_at?: string
           upi_id?: string
+          whatsapp_booking_template?: string
+          whatsapp_default_message?: string
           whatsapp_number?: string
+          whatsapp_payment_message?: string
           years_in_business?: string
         }
         Update: {
@@ -231,7 +237,10 @@ export type Database = {
           tagline?: string
           updated_at?: string
           upi_id?: string
+          whatsapp_booking_template?: string
+          whatsapp_default_message?: string
           whatsapp_number?: string
+          whatsapp_payment_message?: string
           years_in_business?: string
         }
         Relationships: []

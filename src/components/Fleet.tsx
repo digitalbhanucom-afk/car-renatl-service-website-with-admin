@@ -21,8 +21,10 @@ const Fleet = () => {
   const visible = active === "all" ? cars : cars.filter((c: Car) => c.category === active);
 
   const bookViaWhatsApp = (car: Car) => {
+    const template = settings?.whatsapp_booking_template
+      ?? "Hi! I want to book the {car} (₹{price}/day). Please share availability.";
     const msg = encodeURIComponent(
-      `Hi! I'd like to book the *${car.name}* (${car.type_label}).\n\nPrice: ₹${car.price_per_day}/day\nPlease confirm availability.`
+      template.replace(/\{car\}/g, car.name).replace(/\{price\}/g, String(car.price_per_day))
     );
     window.open(`https://wa.me/${wa}?text=${msg}`, "_blank", "noopener,noreferrer");
   };

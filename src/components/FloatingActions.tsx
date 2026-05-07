@@ -5,7 +5,7 @@ export const FloatingActions = () => {
   const { data } = useSiteSettings();
   const phone = data?.phone_number ?? "+919492456488";
   const wa = data?.whatsapp_number ?? "919492456488";
-  const waMsg = encodeURIComponent("Hi! I'd like to book a self-drive car.");
+  const waMsg = encodeURIComponent(data?.whatsapp_default_message ?? "Hi! I'd like to book a self-drive car.");
 
   return (
     <div className="fixed right-4 sm:right-6 bottom-6 z-40 flex flex-col gap-3">

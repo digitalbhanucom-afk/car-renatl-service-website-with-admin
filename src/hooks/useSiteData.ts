@@ -29,6 +29,9 @@ export type SiteSettings = {
   payment_qr_url: string;
   upi_id: string;
   payment_note: string;
+  whatsapp_default_message: string;
+  whatsapp_booking_template: string;
+  whatsapp_payment_message: string;
 };
 
 export const useSiteSettings = () =>
