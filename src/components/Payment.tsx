@@ -43,7 +43,7 @@ const Payment = () => {
                 </a>
               )}
               <a
-                href={`https://wa.me/${wa}?text=${encodeURIComponent("Hi! I've completed the payment, sending the screenshot now.")}`}
+                href={`https://wa.me/${wa}?text=${encodeURIComponent(data.whatsapp_payment_message || "Hi! I've completed the payment, sending the screenshot now.")}`}
                 target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 h-11 rounded-full bg-[#25D366] text-white text-sm font-semibold hover:brightness-110"
               >
