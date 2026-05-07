@@ -33,6 +33,7 @@ const Navbar = () => {
 
   const phone = data?.phone_number ?? "+919492456488";
   const wa = data?.whatsapp_number ?? "919492456488";
+  const waMsg = encodeURIComponent(data?.whatsapp_default_message ?? "Hi! I'd like to book a self-drive car.");
 
   return (
     <>
