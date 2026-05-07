@@ -6,7 +6,7 @@ const Hero = () => {
   const { data } = useSiteSettings();
   const phone = data?.phone_number ?? "+919492456488";
   const wa = data?.whatsapp_number ?? "919492456488";
-  const waMsg = encodeURIComponent("Hi! I'd like to book a self-drive car.");
+  const waMsg = encodeURIComponent(data?.whatsapp_default_message ?? "Hi! I'd like to book a self-drive car.");
 
   const title = data?.hero_title ?? "Self-Drive Cars in Vijayawada";
   const highlight = data?.hero_highlight ?? "Vijayawada";
