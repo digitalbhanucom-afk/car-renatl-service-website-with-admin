@@ -184,6 +184,15 @@ const BrandingEditor = () => {
         <ImageUpload label="Logo (square works best)" value={form.logo_url} onChange={(v) => set("logo_url", v)} />
         <ImageUpload label="Hero background image" value={form.hero_image_url} onChange={(v) => set("hero_image_url", v)} />
       </div>
+      <div className="space-y-2">
+        <div className="text-sm font-semibold">Hero ad images (up to 4) — shown as a strip in the hero section</div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <ImageUpload label="Ad image 1" value={form.hero_ad_image_1 ?? ""} onChange={(v) => set("hero_ad_image_1", v)} />
+          <ImageUpload label="Ad image 2" value={form.hero_ad_image_2 ?? ""} onChange={(v) => set("hero_ad_image_2", v)} />
+          <ImageUpload label="Ad image 3" value={form.hero_ad_image_3 ?? ""} onChange={(v) => set("hero_ad_image_3", v)} />
+          <ImageUpload label="Ad image 4" value={form.hero_ad_image_4 ?? ""} onChange={(v) => set("hero_ad_image_4", v)} />
+        </div>
+      </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="Business Name" value={form.business_name} onChange={(v) => set("business_name", v)} />
         <Field label="Tagline" value={form.tagline} onChange={(v) => set("tagline", v)} />
@@ -195,7 +204,7 @@ const BrandingEditor = () => {
         <Field label="Years in Business" value={form.years_in_business} onChange={(v) => set("years_in_business", v)} />
       </div>
       <Field label="Hero Subtitle" value={form.hero_subtitle} onChange={(v) => set("hero_subtitle", v)} multiline />
-      <SaveButton saving={saving} onClick={() => save(["logo_url","hero_image_url","business_name","tagline","hero_eyebrow","hero_title","hero_highlight","hero_subtitle","rating","reviews_count","years_in_business"])} />
+      <SaveButton saving={saving} onClick={() => save(["logo_url","hero_image_url","hero_ad_image_1","hero_ad_image_2","hero_ad_image_3","hero_ad_image_4","business_name","tagline","hero_eyebrow","hero_title","hero_highlight","hero_subtitle","rating","reviews_count","years_in_business"])} />
     </Section>
   );
 };
