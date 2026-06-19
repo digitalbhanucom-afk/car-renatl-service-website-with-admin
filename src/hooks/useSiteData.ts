@@ -32,6 +32,10 @@ export type SiteSettings = {
   whatsapp_default_message: string;
   whatsapp_booking_template: string;
   whatsapp_payment_message: string;
+  hero_ad_image_1: string | null;
+  hero_ad_image_2: string | null;
+  hero_ad_image_3: string | null;
+  hero_ad_image_4: string | null;
 };
 
 export const useSiteSettings = () =>

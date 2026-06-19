@@ -58,6 +58,20 @@ const Hero = () => {
               </div>
             ))}
           </div>
+
+          {(() => {
+            const ads = [data?.hero_ad_image_1, data?.hero_ad_image_2, data?.hero_ad_image_3, data?.hero_ad_image_4].filter(Boolean) as string[];
+            if (ads.length === 0) return null;
+            return (
+              <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
+                {ads.map((src, i) => (
+                  <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border/60 card-elevated group">
+                    <img src={src} alt={`Ravi Cars promotion ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
 
         <div className="lg:col-span-4 hidden lg:flex flex-col gap-4 justify-center">

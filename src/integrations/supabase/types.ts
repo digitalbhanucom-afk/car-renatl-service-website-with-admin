@@ -151,6 +151,10 @@ export type Database = {
           cta_subtitle: string
           cta_title: string
           footer_note: string
+          hero_ad_image_1: string | null
+          hero_ad_image_2: string | null
+          hero_ad_image_3: string | null
+          hero_ad_image_4: string | null
           hero_eyebrow: string
           hero_highlight: string
           hero_image_url: string
@@ -184,6 +188,10 @@ export type Database = {
           cta_subtitle?: string
           cta_title?: string
           footer_note?: string
+          hero_ad_image_1?: string | null
+          hero_ad_image_2?: string | null
+          hero_ad_image_3?: string | null
+          hero_ad_image_4?: string | null
           hero_eyebrow?: string
           hero_highlight?: string
           hero_image_url?: string
@@ -217,6 +225,10 @@ export type Database = {
           cta_subtitle?: string
           cta_title?: string
           footer_note?: string
+          hero_ad_image_1?: string | null
+          hero_ad_image_2?: string | null
+          hero_ad_image_3?: string | null
+          hero_ad_image_4?: string | null
           hero_eyebrow?: string
           hero_highlight?: string
           hero_image_url?: string
